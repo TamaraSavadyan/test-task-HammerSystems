@@ -26,3 +26,7 @@ class UserProfle(models.Model):
 
     personal_invite_code = models.IntegerField(default=generate_random_number)
     stranger_invite_code = models.IntegerField(null=True)
+
+    class Meta:
+        db_table = 'users'
+
