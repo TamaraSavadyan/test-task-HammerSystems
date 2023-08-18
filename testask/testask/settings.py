@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from testask.config import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-+(gic*th8$jekc8qdgt6zqiq!=uh6myfs_in*@o2xtqs!y6ywh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -74,12 +75,24 @@ WSGI_APPLICATION = 'testask.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+db_name = config.database.db_name
+db_user = config.database.user
+db_password = config.database.password
+db_host = config.database.host
+db_port = config.database.port
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': f'{db_name}',
+        'USER': f'{db_user}',
+        'PASSWORD': f'{db_password}',
+        'HOST': f'{db_host}', 
+        'PORT': f'{db_port}',       
     }
 }
+
 
 
 # Password validation
