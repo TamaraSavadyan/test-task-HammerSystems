@@ -1,5 +1,5 @@
 from django.db import models
-import phonenumbers
+from phonenumbers import PhoneNumberFormat, NumberParseException, parse, is_valid_number, format_number
 import random
 
 
@@ -8,12 +8,12 @@ class UserProfle(models.Model):
     
     def save(self, *args, **kwargs):
         try:
-            parsed_number = phonenumbers.parse(self.phone, None)
-            if not phonenumbers.is_valid_number(parsed_number):
+            parsed_number = parse(self.phone, None)
+            if not is_valid_number(parsed_number):
                 raise ValueError("Invalid phone number")
-            formatted_number = phonenumbers.format_number(parsed_number, phonenumbers.PhoneNumberFormat.E164)
+            formatted_number = format_number(parsed_number, PhoneNumberFormat.E164)
             self.phone = formatted_number
-        except phonenumbers.NumberParseException:
+        except NumberParseException:
             raise ValueError("Unable to parse phone number")
 
         super().save(*args, **kwargs)
